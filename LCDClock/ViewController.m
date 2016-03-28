@@ -17,13 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self getCurrentTime];
-    [self.digitOne showDigit:self.digitOneNumber];
-    [self.digitTwo showDigit:self.digitTwoNumber];
-    [self.digitThree showDigit:self.digitThreeNumber];
-    [self.digitFour showDigit:self.digitFourNumber];
-    [self.digitFive showDigit:self.digitFiveNumber];
-    [self.digitSix showDigit:self.digitSixNumber];
+    [self populateAllViews];
+    
+    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(blinkDots) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(populateAllViews) userInfo:nil repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,6 +64,23 @@
     } else {
         self.amPM.text = @"AM";
     }
+}
+
+- (void)populateAllViews {
+    [self getCurrentTime];
+    [self.digitOne showDigit:self.digitOneNumber];
+    [self.digitTwo showDigit:self.digitTwoNumber];
+    [self.digitThree showDigit:self.digitThreeNumber];
+    [self.digitFour showDigit:self.digitFourNumber];
+    [self.digitFive showDigit:self.digitFiveNumber];
+    [self.digitSix showDigit:self.digitSixNumber];
+    self.dotOne.hidden = NO;
+    self.dotTwo.hidden = NO;
+}
+
+- (void)blinkDots {
+    self.dotOne.hidden = YES;
+    self.dotTwo.hidden = YES;
 }
 
 @end

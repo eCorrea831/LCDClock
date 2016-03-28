@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *dotOne;
 @property (weak, nonatomic) IBOutlet UIView *dotTwo;
 @property (weak, nonatomic) IBOutlet UILabel *amPM;
+@property (weak, nonatomic) IBOutlet UISwitch *militaryTimeSwitch;
 
 @property (nonatomic) long digitOneNumber;
 @property (nonatomic) long digitTwoNumber;
@@ -27,6 +28,10 @@
 @property (nonatomic) long digitFourNumber;
 @property (nonatomic) long digitFiveNumber;
 @property (nonatomic) long digitSixNumber;
+
+
+- (void)populateAllViews;
+- (void)blinkDots;
 
 @end
 
