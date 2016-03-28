@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Psh-TI-PLc"/>
+                        <viewControllerLayoutGuide type="bottom" id="E6B-Gf-AwS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="N8J-ub-Hnh" userLabel="mainView">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="mcn-2m-Diq" userLabel="mainStackView">
+                                <rect key="frame" x="27" y="278" width="360" height="180"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abE-Hl-L5k" userLabel="digitOne" customClass="Digit">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="180"/>
+                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="abE-Hl-L5k" secondAttribute="height" multiplier="1:3" id="X1X-Hw-0t2"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAO-3Y-voF" userLabel="digitTwo" customClass="Digit">
+                                        <rect key="frame" x="66" y="0.0" width="60" height="180"/>
+                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="MAO-3Y-voF" secondAttribute="height" multiplier="1:3" id="MJL-oP-Ov7"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GCj-6k-LtM" userLabel="dotsContainer">
+                                        <rect key="frame" x="132" y="0.0" width="31" height="180"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="TSF-Bc-2J4" userLabel="dotsStackView">
+                                                <rect key="frame" x="0.0" y="45" width="31" height="90"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZgL-E2-feg" userLabel="dotOne">
+                                                        <rect key="frame" x="0.0" y="0.0" width="31" height="28"/>
+                                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uCj-jj-x67" userLabel="dotTwo">
+                                                        <rect key="frame" x="0.0" y="63" width="31" height="27"/>
+                                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="centerY" secondItem="GCj-6k-LtM" secondAttribute="centerY" id="AU3-NK-Pfa"/>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="height" secondItem="GCj-6k-LtM" secondAttribute="height" multiplier="0.5" id="Oyu-4W-3Kp"/>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="centerX" secondItem="GCj-6k-LtM" secondAttribute="centerX" id="Rkh-jj-QhR"/>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="width" secondItem="GCj-6k-LtM" secondAttribute="width" id="gmV-WW-28A"/>
+                                            <constraint firstAttribute="width" secondItem="GCj-6k-LtM" secondAttribute="height" multiplier="31:180" id="y9z-lj-ze9"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tp8-LY-4eS" userLabel="digitThree" customClass="Digit">
+                                        <rect key="frame" x="169" y="0.0" width="59" height="180"/>
+                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Tp8-LY-4eS" secondAttribute="height" multiplier="1:3" id="j90-oe-NLr"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFp-s0-BwU" userLabel="digitFour" customClass="Digit">
+                                        <rect key="frame" x="234" y="0.0" width="60" height="180"/>
+                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="uFp-s0-BwU" secondAttribute="height" multiplier="1:3" id="xh8-mA-HXT"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="llx-Eu-eQz" userLabel="amPmSecContainer">
+                                        <rect key="frame" x="300" y="0.0" width="60" height="180"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5Ea-VI-Pav" userLabel="amPMSecStackView">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="180"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gRF-Rh-AeR" userLabel="amPMStackView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="88"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AM/PM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6f8-Lc-PmC">
+                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="88"/>
+                                                                <color key="backgroundColor" red="0.17970429264444931" green="0.49581738025872091" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="nLJ-ip-6XP" userLabel="secondsStackView">
+                                                        <rect key="frame" x="0.0" y="92" width="60" height="88"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzi-dc-RYz" userLabel="digitFive" customClass="Digit">
+                                                                <rect key="frame" x="0.0" y="0.0" width="28" height="88"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5tJ-C8-eIK" userLabel="digitSix" customClass="Digit">
+                                                                <rect key="frame" x="32" y="0.0" width="28" height="88"/>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </view>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="5Ea-VI-Pav" firstAttribute="top" secondItem="llx-Eu-eQz" secondAttribute="top" id="Ivd-8T-nCi"/>
+                                            <constraint firstItem="5Ea-VI-Pav" firstAttribute="leading" secondItem="llx-Eu-eQz" secondAttribute="leading" id="KT0-ll-3MI"/>
+                                            <constraint firstAttribute="width" secondItem="llx-Eu-eQz" secondAttribute="height" multiplier="1:3" id="WuH-HF-o3c"/>
+                                            <constraint firstAttribute="trailing" secondItem="5Ea-VI-Pav" secondAttribute="trailing" id="bFG-kz-hlT"/>
+                                            <constraint firstAttribute="bottom" secondItem="5Ea-VI-Pav" secondAttribute="bottom" id="uDG-gY-oe1"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="mcn-2m-Diq" secondAttribute="height" multiplier="592:295" id="aya-cN-vZb"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="mcn-2m-Diq" firstAttribute="centerX" secondItem="N8J-ub-Hnh" secondAttribute="centerX" id="6eP-Jv-XC0"/>
+                            <constraint firstItem="mcn-2m-Diq" firstAttribute="centerY" secondItem="N8J-ub-Hnh" secondAttribute="centerY" id="ABD-Vh-CdV"/>
+                            <constraint firstItem="mcn-2m-Diq" firstAttribute="width" secondItem="N8J-ub-Hnh" secondAttribute="width" multiplier="40:46" id="Qsc-Dl-AB4"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="digitFive" destination="kzi-dc-RYz" id="91y-yg-ca6"/>
+                        <outlet property="digitFour" destination="uFp-s0-BwU" id="hNj-hQ-Inm"/>
+                        <outlet property="digitOne" destination="abE-Hl-L5k" id="vgB-RZ-T5Q"/>
+                        <outlet property="digitSix" destination="5tJ-C8-eIK" id="Fza-jS-dOh"/>
+                        <outlet property="digitThree" destination="Tp8-LY-4eS" id="7Fh-Bd-4Bc"/>
+                        <outlet property="digitTwo" destination="MAO-3Y-voF" id="pTJ-MI-6vK"/>
+                        <outlet property="dotOne" destination="ZgL-E2-feg" id="5fu-us-gnm"/>
+                        <outlet property="dotTwo" destination="uCj-jj-x67" id="65v-XI-s6k"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="278" y="317"/>
+        </scene>
+    </scenes>
+</document>

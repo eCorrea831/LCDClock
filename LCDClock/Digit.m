@@ -1,0 +1,82 @@
+//
+//  Digit.m
+//  LCDClock
+//
+//  Created by Erica Correa on 3/21/16.
+//  Copyright © 2016 Turn to Tech. All rights reserved.
+//
+
+#import "Digit.h"
+
+@implementation Digit
+
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    
+    if ((self = [super initWithCoder:aDecoder])) {
+        UIView *view = [[[NSBundle mainBundle] loadNibNamed:@"Digit" owner:self options:nil] objectAtIndex:0];
+        
+        view.frame = self.bounds;
+        view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self addSubview:view];
+    }
+
+    return self;
+}
+
+- (void)showDigit:(long)number {
+    
+    switch ((long) number) {
+        case 0:
+            self.segmentSix.hidden = YES;
+            break;
+        case 1:
+            self.segmentOne.hidden = YES;
+            self.segmentThree.hidden = YES;
+            self.segmentFive.hidden = YES;
+            self.segmentSix.hidden = YES;
+            self.segmentSeven.hidden = YES;
+            break;
+        case 2:
+            self.segmentOne.hidden = YES;
+            self.segmentFour.hidden = YES;
+            break;
+        case 3:
+            self.segmentOne.hidden = YES;
+            self.segmentThree.hidden = YES;
+            break;
+        case 4:
+            self.segmentThree.hidden = YES;
+            self.segmentFive.hidden = YES;
+            self.segmentSeven.hidden = YES;
+            break;
+        case 5:
+            self.segmentTwo.hidden = YES;
+            self.segmentThree.hidden = YES;
+            break;
+        case 6:
+            self.segmentTwo.hidden = YES;
+            break;
+        case 7:
+            self.segmentOne.hidden = YES;
+            self.segmentThree.hidden = YES;
+            self.segmentSix.hidden = YES;
+            self.segmentSeven.hidden = YES;
+            break;
+        case 8:
+            break;
+        case 9:
+            self.segmentThree.hidden = YES;
+            break;
+        default:
+            self.segmentOne.hidden = YES;
+            self.segmentTwo.hidden = YES;
+            self.segmentThree.hidden = YES;
+            self.segmentFour.hidden = YES;
+            self.segmentFive.hidden = YES;
+            self.segmentSix.hidden = YES;
+            self.segmentSeven.hidden = YES;
+            break;
+    }
+}
+
+@end
