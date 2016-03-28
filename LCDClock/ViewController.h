@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet Digit *digitSix;
 @property (weak, nonatomic) IBOutlet UIView *dotOne;
 @property (weak, nonatomic) IBOutlet UIView *dotTwo;
+@property (weak, nonatomic) IBOutlet UILabel *amPM;
 
 @property (nonatomic) long digitOneNumber;
 @property (nonatomic) long digitTwoNumber;

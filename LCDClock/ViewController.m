@@ -34,7 +34,7 @@
     
     NSDate * now = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"hh:mm:ss"];
+    [dateFormatter setDateFormat:@"hh:mm:ss a"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:now];
     
@@ -60,6 +60,12 @@
     } else {
         self.digitFiveNumber = 0;
         self.digitSixNumber = [components second];
+    }
+    
+    if ([components hour] > 11) {
+        self.amPM.text = @"PM";
+    } else {
+        self.amPM.text = @"AM";
     }
 }
 
