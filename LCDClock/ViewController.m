@@ -23,6 +23,7 @@
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(populateAllViews) userInfo:nil repeats:YES];
     
     [self setColors];
+    self.digitArray = @[self.digitOne, self.digitTwo, self.digitThree, self.digitFour, self.digitFive, self.digitSix];
     [self startGestureForBackground];
     [self startGestureForText];
 }
@@ -153,48 +154,16 @@
     [self.amPM setTextColor:color];
     [self.dotOne setBackgroundColor:color];
     [self.dotTwo setBackgroundColor:color];
-    [self.digitOne.segmentOne setBackgroundColor:color];
-    [self.digitOne.segmentTwo setBackgroundColor:color];
-    [self.digitOne.segmentThree setBackgroundColor:color];
-    [self.digitOne.segmentFour setBackgroundColor:color];
-    [self.digitOne.segmentFive setBackgroundColor:color];
-    [self.digitOne.segmentSix setBackgroundColor:color];
-    [self.digitOne.segmentSeven setBackgroundColor:color];
-    [self.digitTwo.segmentOne setBackgroundColor:color];
-    [self.digitTwo.segmentTwo setBackgroundColor:color];
-    [self.digitTwo.segmentThree setBackgroundColor:color];
-    [self.digitTwo.segmentFour setBackgroundColor:color];
-    [self.digitTwo.segmentFive setBackgroundColor:color];
-    [self.digitTwo.segmentSix setBackgroundColor:color];
-    [self.digitTwo.segmentSeven setBackgroundColor:color];
-    [self.digitThree.segmentOne setBackgroundColor:color];
-    [self.digitThree.segmentTwo setBackgroundColor:color];
-    [self.digitThree.segmentThree setBackgroundColor:color];
-    [self.digitThree.segmentFour setBackgroundColor:color];
-    [self.digitThree.segmentFive setBackgroundColor:color];
-    [self.digitThree.segmentSix setBackgroundColor:color];
-    [self.digitThree.segmentSeven setBackgroundColor:color];
-    [self.digitFour.segmentOne setBackgroundColor:color];
-    [self.digitFour.segmentTwo setBackgroundColor:color];
-    [self.digitFour.segmentThree setBackgroundColor:color];
-    [self.digitFour.segmentFour setBackgroundColor:color];
-    [self.digitFour.segmentFive setBackgroundColor:color];
-    [self.digitFour.segmentSix setBackgroundColor:color];
-    [self.digitFour.segmentSeven setBackgroundColor:color];
-    [self.digitFive.segmentOne setBackgroundColor:color];
-    [self.digitFive.segmentTwo setBackgroundColor:color];
-    [self.digitFive.segmentThree setBackgroundColor:color];
-    [self.digitFive.segmentFour setBackgroundColor:color];
-    [self.digitFive.segmentFive setBackgroundColor:color];
-    [self.digitFive.segmentSix setBackgroundColor:color];
-    [self.digitFive.segmentSeven setBackgroundColor:color];
-    [self.digitSix.segmentOne setBackgroundColor:color];
-    [self.digitSix.segmentTwo setBackgroundColor:color];
-    [self.digitSix.segmentThree setBackgroundColor:color];
-    [self.digitSix.segmentFour setBackgroundColor:color];
-    [self.digitSix.segmentFive setBackgroundColor:color];
-    [self.digitSix.segmentSix setBackgroundColor:color];
-    [self.digitSix.segmentSeven setBackgroundColor:color];
+  
+    for (Digit *digit in self.digitArray) {
+        [digit.segmentOne setBackgroundColor:color];
+        [digit.segmentTwo setBackgroundColor:color];
+        [digit.segmentThree setBackgroundColor:color];
+        [digit.segmentFour setBackgroundColor:color];
+        [digit.segmentFive setBackgroundColor:color];
+        [digit.segmentSix setBackgroundColor:color];
+        [digit.segmentSeven setBackgroundColor:color];
+    }
 }
 
 - (void)startGestureForBackground {

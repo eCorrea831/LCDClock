@@ -41,6 +41,7 @@
 @property (nonatomic, retain) UIColor* blue;
 @property (nonatomic, retain) UIColor* purple;
 @property (nonatomic, retain) UIColor* orange;
+@property (nonatomic) NSArray *digitArray;
 
 //methods to show appropriate segments for each number and blink the dots
 - (void)populateAllViews;
