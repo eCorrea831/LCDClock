@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface Digit : UIView
+
+//properties for each individual segment view in the number 8
 @property (strong, nonatomic) IBOutlet UIView *background;
 @property (weak, nonatomic) IBOutlet UIView *segmentFive;
 @property (weak, nonatomic) IBOutlet UIView *segmentOne;
@@ -18,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *segmentSix;
 @property (weak, nonatomic) IBOutlet UIView *segmentSeven;
 
+//method to show the appropriate segments to form a number
 - (void)showDigit:(long)number;
 
 @end

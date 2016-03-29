@@ -19,142 +19,138 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Kmx-h8-5H4" userLabel="mainStackView">
-                                <rect key="frame" x="14" y="263" width="386" height="210"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="mcn-2m-Diq" userLabel="digitStackView">
+                                <rect key="frame" x="16" y="253" width="382" height="190"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="mcn-2m-Diq" userLabel="digitStackView">
-                                        <rect key="frame" x="13" y="0.0" width="360" height="179"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abE-Hl-L5k" userLabel="digitOne" customClass="Digit">
+                                        <rect key="frame" x="0.0" y="0.0" width="63" height="190"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="abE-Hl-L5k" secondAttribute="height" multiplier="1:3" id="X1X-Hw-0t2"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAO-3Y-voF" userLabel="digitTwo" customClass="Digit">
+                                        <rect key="frame" x="70" y="0.0" width="63" height="190"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="MAO-3Y-voF" secondAttribute="height" multiplier="1:3" id="MJL-oP-Ov7"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GCj-6k-LtM" userLabel="dotsContainer">
+                                        <rect key="frame" x="140" y="0.0" width="32" height="190"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abE-Hl-L5k" userLabel="digitOne" customClass="Digit">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="179"/>
-                                                <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="abE-Hl-L5k" secondAttribute="height" multiplier="1:3" id="X1X-Hw-0t2"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAO-3Y-voF" userLabel="digitTwo" customClass="Digit">
-                                                <rect key="frame" x="66" y="0.0" width="60" height="179"/>
-                                                <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="MAO-3Y-voF" secondAttribute="height" multiplier="1:3" id="MJL-oP-Ov7"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GCj-6k-LtM" userLabel="dotsContainer">
-                                                <rect key="frame" x="132" y="0.0" width="30" height="179"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="TSF-Bc-2J4" userLabel="dotsStackView">
+                                                <rect key="frame" x="0.0" y="48" width="32" height="95"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="TSF-Bc-2J4" userLabel="dotsStackView">
-                                                        <rect key="frame" x="0.0" y="45" width="30" height="89"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZgL-E2-feg" userLabel="dotOne">
+                                                        <rect key="frame" x="0.0" y="0.0" width="32" height="30"/>
+                                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uCj-jj-x67" userLabel="dotTwo">
+                                                        <rect key="frame" x="0.0" y="65" width="32" height="30"/>
+                                                        <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="centerY" secondItem="GCj-6k-LtM" secondAttribute="centerY" id="AU3-NK-Pfa"/>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="height" secondItem="GCj-6k-LtM" secondAttribute="height" multiplier="0.5" id="Oyu-4W-3Kp"/>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="centerX" secondItem="GCj-6k-LtM" secondAttribute="centerX" id="Rkh-jj-QhR"/>
+                                            <constraint firstItem="TSF-Bc-2J4" firstAttribute="width" secondItem="GCj-6k-LtM" secondAttribute="width" id="gmV-WW-28A"/>
+                                            <constraint firstAttribute="width" secondItem="GCj-6k-LtM" secondAttribute="height" multiplier="31:180" id="y9z-lj-ze9"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tp8-LY-4eS" userLabel="digitThree" customClass="Digit">
+                                        <rect key="frame" x="179" y="0.0" width="63" height="190"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Tp8-LY-4eS" secondAttribute="height" multiplier="1:3" id="j90-oe-NLr"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFp-s0-BwU" userLabel="digitFour" customClass="Digit">
+                                        <rect key="frame" x="249" y="0.0" width="63" height="190"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="uFp-s0-BwU" secondAttribute="height" multiplier="1:3" id="xh8-mA-HXT"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="llx-Eu-eQz" userLabel="amPmSecContainer">
+                                        <rect key="frame" x="319" y="0.0" width="63" height="190"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5Ea-VI-Pav" userLabel="amPMSecStackView">
+                                                <rect key="frame" x="0.0" y="0.0" width="63" height="190"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gRF-Rh-AeR" userLabel="amPMStackView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="63" height="93"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZgL-E2-feg" userLabel="dotOne">
-                                                                <rect key="frame" x="0.0" y="0.0" width="30" height="27"/>
-                                                                <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="6f8-Lc-PmC">
+                                                                <rect key="frame" x="0.0" y="0.0" width="63" height="93"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="73"/>
+                                                                <color key="textColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="nLJ-ip-6XP" userLabel="secondsStackView">
+                                                        <rect key="frame" x="0.0" y="97" width="63" height="93"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzi-dc-RYz" userLabel="digitFive" customClass="Digit">
+                                                                <rect key="frame" x="0.0" y="0.0" width="30" height="93"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uCj-jj-x67" userLabel="dotTwo">
-                                                                <rect key="frame" x="0.0" y="62" width="30" height="27"/>
-                                                                <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5tJ-C8-eIK" userLabel="digitSix" customClass="Digit">
+                                                                <rect key="frame" x="34" y="0.0" width="29" height="93"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             </view>
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstItem="TSF-Bc-2J4" firstAttribute="centerY" secondItem="GCj-6k-LtM" secondAttribute="centerY" id="AU3-NK-Pfa"/>
-                                                    <constraint firstItem="TSF-Bc-2J4" firstAttribute="height" secondItem="GCj-6k-LtM" secondAttribute="height" multiplier="0.5" id="Oyu-4W-3Kp"/>
-                                                    <constraint firstItem="TSF-Bc-2J4" firstAttribute="centerX" secondItem="GCj-6k-LtM" secondAttribute="centerX" id="Rkh-jj-QhR"/>
-                                                    <constraint firstItem="TSF-Bc-2J4" firstAttribute="width" secondItem="GCj-6k-LtM" secondAttribute="width" id="gmV-WW-28A"/>
-                                                    <constraint firstAttribute="width" secondItem="GCj-6k-LtM" secondAttribute="height" multiplier="31:180" id="y9z-lj-ze9"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tp8-LY-4eS" userLabel="digitThree" customClass="Digit">
-                                                <rect key="frame" x="169" y="0.0" width="59" height="179"/>
-                                                <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="Tp8-LY-4eS" secondAttribute="height" multiplier="1:3" id="j90-oe-NLr"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uFp-s0-BwU" userLabel="digitFour" customClass="Digit">
-                                                <rect key="frame" x="234" y="0.0" width="60" height="179"/>
-                                                <color key="backgroundColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="uFp-s0-BwU" secondAttribute="height" multiplier="1:3" id="xh8-mA-HXT"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="llx-Eu-eQz" userLabel="amPmSecContainer">
-                                                <rect key="frame" x="300" y="0.0" width="60" height="179"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="5Ea-VI-Pav" userLabel="amPMSecStackView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="179"/>
-                                                        <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gRF-Rh-AeR" userLabel="amPMStackView">
-                                                                <rect key="frame" x="0.0" y="0.0" width="60" height="88"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="6f8-Lc-PmC">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="88"/>
-                                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="73"/>
-                                                                        <color key="textColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                            </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="nLJ-ip-6XP" userLabel="secondsStackView">
-                                                                <rect key="frame" x="0.0" y="92" width="60" height="87"/>
-                                                                <subviews>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzi-dc-RYz" userLabel="digitFive" customClass="Digit">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="28" height="87"/>
-                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </view>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5tJ-C8-eIK" userLabel="digitSix" customClass="Digit">
-                                                                        <rect key="frame" x="32" y="0.0" width="28" height="87"/>
-                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    </view>
-                                                                </subviews>
-                                                            </stackView>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstItem="5Ea-VI-Pav" firstAttribute="top" secondItem="llx-Eu-eQz" secondAttribute="top" id="Ivd-8T-nCi"/>
-                                                    <constraint firstItem="5Ea-VI-Pav" firstAttribute="leading" secondItem="llx-Eu-eQz" secondAttribute="leading" id="KT0-ll-3MI"/>
-                                                    <constraint firstAttribute="width" secondItem="llx-Eu-eQz" secondAttribute="height" multiplier="1:3" id="WuH-HF-o3c"/>
-                                                    <constraint firstAttribute="trailing" secondItem="5Ea-VI-Pav" secondAttribute="trailing" id="bFG-kz-hlT"/>
-                                                    <constraint firstAttribute="bottom" secondItem="5Ea-VI-Pav" secondAttribute="bottom" id="uDG-gY-oe1"/>
-                                                </constraints>
-                                            </view>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </stackView>
                                         </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="mcn-2m-Diq" secondAttribute="height" multiplier="592:295" id="aya-cN-vZb"/>
+                                            <constraint firstItem="5Ea-VI-Pav" firstAttribute="top" secondItem="llx-Eu-eQz" secondAttribute="top" id="Ivd-8T-nCi"/>
+                                            <constraint firstItem="5Ea-VI-Pav" firstAttribute="leading" secondItem="llx-Eu-eQz" secondAttribute="leading" id="KT0-ll-3MI"/>
+                                            <constraint firstAttribute="width" secondItem="llx-Eu-eQz" secondAttribute="height" multiplier="1:3" id="WuH-HF-o3c"/>
+                                            <constraint firstAttribute="trailing" secondItem="5Ea-VI-Pav" secondAttribute="trailing" id="bFG-kz-hlT"/>
+                                            <constraint firstAttribute="bottom" secondItem="5Ea-VI-Pav" secondAttribute="bottom" id="uDG-gY-oe1"/>
                                         </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bNc-Ha-KWO" userLabel="MilitaryStackView">
-                                        <rect key="frame" x="103" y="179" width="180" height="31"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Military Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Z2i-5y-W84">
-                                                <rect key="frame" x="0.0" y="0.0" width="115" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                                <color key="textColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ufl-5b-aiN">
-                                                <rect key="frame" x="131" y="0.0" width="51" height="31"/>
-                                            </switch>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="bNc-Ha-KWO" secondAttribute="height" multiplier="180:31" id="mol-sQ-0s5"/>
-                                        </constraints>
-                                    </stackView>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Kmx-h8-5H4" secondAttribute="height" multiplier="686:373" id="Wp8-v7-3mY"/>
+                                    <constraint firstAttribute="width" secondItem="mcn-2m-Diq" secondAttribute="height" multiplier="592:295" id="aya-cN-vZb"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bNc-Ha-KWO" userLabel="MilitaryStackView">
+                                <rect key="frame" x="117" y="453" width="180" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Military Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Z2i-5y-W84">
+                                        <rect key="frame" x="0.0" y="0.0" width="115" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <color key="textColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ufl-5b-aiN">
+                                        <rect key="frame" x="131" y="0.0" width="51" height="31"/>
+                                    </switch>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bNc-Ha-KWO" secondAttribute="height" multiplier="180:31" id="mol-sQ-0s5"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Kmx-h8-5H4" firstAttribute="width" secondItem="N8J-ub-Hnh" secondAttribute="width" multiplier="343:368" id="a0a-UG-bNY"/>
-                            <constraint firstItem="Kmx-h8-5H4" firstAttribute="centerY" secondItem="N8J-ub-Hnh" secondAttribute="centerY" id="jTZ-nA-7je"/>
-                            <constraint firstItem="Kmx-h8-5H4" firstAttribute="centerX" secondItem="N8J-ub-Hnh" secondAttribute="centerX" id="yKI-Pn-PQt"/>
+                            <constraint firstItem="mcn-2m-Diq" firstAttribute="centerX" secondItem="N8J-ub-Hnh" secondAttribute="centerX" id="1Ur-ti-72P"/>
+                            <constraint firstItem="mcn-2m-Diq" firstAttribute="centerY" secondItem="N8J-ub-Hnh" secondAttribute="centerY" constant="-20" id="CqH-sK-bPS"/>
+                            <constraint firstItem="bNc-Ha-KWO" firstAttribute="centerX" secondItem="N8J-ub-Hnh" secondAttribute="centerX" id="ZfF-9S-9vc"/>
+                            <constraint firstItem="bNc-Ha-KWO" firstAttribute="top" secondItem="mcn-2m-Diq" secondAttribute="bottom" constant="10" id="Zgt-vR-8S4"/>
+                            <constraint firstItem="mcn-2m-Diq" firstAttribute="width" secondItem="N8J-ub-Hnh" secondAttribute="width" multiplier="680:736" id="dZY-tr-TNN"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
@@ -168,6 +164,8 @@
                         <outlet property="digitTwo" destination="MAO-3Y-voF" id="pTJ-MI-6vK"/>
                         <outlet property="dotOne" destination="ZgL-E2-feg" id="5fu-us-gnm"/>
                         <outlet property="dotTwo" destination="uCj-jj-x67" id="65v-XI-s6k"/>
+                        <outlet property="mainView" destination="N8J-ub-Hnh" id="aND-Rv-GVj"/>
+                        <outlet property="militaryTimeLabel" destination="Z2i-5y-W84" id="RC3-hP-iot"/>
                         <outlet property="militaryTimeSwitch" destination="Ufl-5b-aiN" id="ac8-ke-lSZ"/>
                     </connections>
                 </viewController>

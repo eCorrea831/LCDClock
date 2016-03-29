@@ -73,7 +73,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="0J8-5j-5MA" firstAttribute="top" secondItem="9PI-qT-Vro" secondAttribute="top" id="0N1-DP-LHq"/>
                 <constraint firstItem="fGk-4X-Khe" firstAttribute="leading" secondItem="UKy-TP-HHx" secondAttribute="leading" id="0NW-uJ-oXA"/>
