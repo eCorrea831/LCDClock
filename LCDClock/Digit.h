@@ -19,8 +19,10 @@
 @property (weak, nonatomic) IBOutlet UIView *segmentFour;
 @property (weak, nonatomic) IBOutlet UIView *segmentSix;
 @property (weak, nonatomic) IBOutlet UIView *segmentSeven;
+@property (nonatomic) NSArray *segmentArray;
 
 //method to show the appropriate segments to form a number
+- (void)createSegementArray;
 - (void)showDigit:(long)number;
 
 @end

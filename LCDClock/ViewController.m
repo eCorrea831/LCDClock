@@ -12,6 +12,10 @@
 
 @end
 
+//TODO: add logic so text color != background color
+//TODO: implement NSUserDefaults
+//TODO: implement a secondary archiving system
+
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -22,7 +26,7 @@
     [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(blinkDots) userInfo:nil repeats:YES];
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(populateAllViews) userInfo:nil repeats:YES];
     
-    [self setColors];
+    [self defineColors];
     self.digitArray = @[self.digitOne, self.digitTwo, self.digitThree, self.digitFour, self.digitFive, self.digitSix];
     [self startGestureForBackground];
     [self startGestureForText];
@@ -48,7 +52,6 @@
         self.digitOne.hidden = YES;
         self.digitTwoNumber = ([components hour] - 12);
     }
-    
     if ([components minute] >= 10) {
         self.digitThreeNumber = [components minute] / 10;
         self.digitFourNumber = [components minute] % 10;
@@ -56,7 +59,6 @@
         self.digitThreeNumber = 0;
         self.digitFourNumber = [components minute];
     }
-    
     if ([components second] >= 10) {
         self.digitFiveNumber = [components second] / 10;
         self.digitSixNumber = [components second] % 10;
@@ -64,13 +66,12 @@
         self.digitFiveNumber = 0;
         self.digitSixNumber = [components second];
     }
-    self.amPM.hidden = NO;
-    
     if ([components hour] > 11) {
         self.amPM.text = @"PM";
     } else {
         self.amPM.text = @"AM";
     }
+    self.amPM.hidden = NO;
 }
 
 - (void)getCurrentMilitaryTime {
@@ -90,7 +91,6 @@
         self.digitOneNumber = 0;
         self.digitTwoNumber = [components hour];
     }
-    
     if ([components minute] >= 10) {
         self.digitThreeNumber = [components minute] / 10;
         self.digitFourNumber = [components minute] % 10;
@@ -98,7 +98,6 @@
         self.digitThreeNumber = 0;
         self.digitFourNumber = [components minute];
     }
-    
     if ([components second] >= 10) {
         self.digitFiveNumber = [components second] / 10;
         self.digitSixNumber = [components second] % 10;
@@ -106,7 +105,6 @@
         self.digitFiveNumber = 0;
         self.digitSixNumber = [components second];
     }
-    
     self.amPM.hidden = YES;
 }
 
@@ -131,22 +129,21 @@
     self.dotTwo.hidden = YES;
 }
 
+- (void)initWithRed:(float)red andGreen:(float)green andBlue:(float)blue andAlpha:(float)num  {
+    [UIColor colorWithRed:red green:green blue:blue alpha:num];
+}
+
 //set colors for tap method
-- (void)setColors {
-    self.black = [[UIColor alloc] init];
-    self.black = [UIColor blackColor];
-    self.yellow = [[UIColor alloc] init];
-    self.yellow = [UIColor colorWithRed:0.90 green:0.89 blue:0.62 alpha:1.0];
-    self.red = [[UIColor alloc] init];
-    self.red = [UIColor colorWithRed:0.84 green:0.13 blue:0.13 alpha:1.0];
-    self.green = [[UIColor alloc] init];
-    self.green = [UIColor colorWithRed:0.58 green:0.77 blue:0.49 alpha:1.0];
-    self.blue = [[UIColor alloc] init];
-    self.blue = [UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0];
-    self.purple = [[UIColor alloc] init];
-    self.purple = [UIColor colorWithRed:0.56 green:0.49 blue:0.76 alpha:1.0];
-    self.orange = [[UIColor alloc] init];
-    self.orange = [UIColor colorWithRed:0.96 green:0.70 blue:0.42 alpha:1.0];
+- (void)defineColors {
+    self.black = [[UIColor alloc] initWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+    self.yellow = [[UIColor alloc] initWithRed:0.90 green:0.89 blue:0.62 alpha:1.0];
+    self.red = [[UIColor alloc] initWithRed:0.84 green:0.13 blue:0.13 alpha:1.0];
+    self.green = [[UIColor alloc] initWithRed:0.58 green:0.77 blue:0.49 alpha:1.0];
+    self.blue = [[UIColor alloc] initWithRed:0.64 green:0.76 blue:0.96 alpha:1.0];
+    self.purple = [[UIColor alloc] initWithRed:0.56 green:0.49 blue:0.76 alpha:1.0];
+    self.orange = [[UIColor alloc] initWithRed:0.96 green:0.70 blue:0.42 alpha:1.0];
+    
+    self.colorArray = @[self.black, self.yellow, self.red, self.green, self.blue, self.purple, self.orange];
 }
 
 - (void)changeColor: (UIColor *)color {
@@ -156,13 +153,9 @@
     [self.dotTwo setBackgroundColor:color];
   
     for (Digit *digit in self.digitArray) {
-        [digit.segmentOne setBackgroundColor:color];
-        [digit.segmentTwo setBackgroundColor:color];
-        [digit.segmentThree setBackgroundColor:color];
-        [digit.segmentFour setBackgroundColor:color];
-        [digit.segmentFive setBackgroundColor:color];
-        [digit.segmentSix setBackgroundColor:color];
-        [digit.segmentSeven setBackgroundColor:color];
+        for (UIView *segment in digit.segmentArray) {
+            segment.backgroundColor = color;
+        }
     }
 }
 
@@ -181,49 +174,69 @@
     //set initial color
     [self changeColor:self.red];
     
-    //get instance of long press gesture and add to mainView
-    UISwipeGestureRecognizer *swipeText = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeGestureForText:)];
-    [self.mainView addGestureRecognizer:swipeText];
+    //get instance of swipeLeft gesture and add to mainView
+    UISwipeGestureRecognizer *swipeTextLeft = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeLeftGestureForText:)];
+    swipeTextLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.mainView addGestureRecognizer:swipeTextLeft];
+    
+    //get instance of swipeRight gesture and add to mainView
+    UISwipeGestureRecognizer *swipeTextRight = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeRightGestureForText:)];
+    swipeTextRight.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.mainView addGestureRecognizer:swipeTextRight];
 }
 
 - (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        if ([self.mainView.backgroundColor isEqual: self.black]) {
-            [self.mainView setBackgroundColor:self.yellow];
-        } else if ([self.mainView.backgroundColor isEqual:self.yellow]) {
-            [self.mainView setBackgroundColor:self.red];
-        } else if ([self.mainView.backgroundColor isEqual:self.red]) {
-            [self.mainView setBackgroundColor:self.green];
-        } else if ([self.mainView.backgroundColor isEqual:self.green]) {
-            [self.mainView setBackgroundColor:self.blue];
-        } else if ([self.mainView.backgroundColor isEqual:self.blue]) {
-            [self.mainView setBackgroundColor:self.purple];
-        } else if ([self.mainView.backgroundColor isEqual:self.purple]) {
-            [self.mainView setBackgroundColor:self.orange];
+        
+        int colorIndex = 0;
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
+                colorIndex = index;
+            }
+        }
+        if ([self.mainView.backgroundColor isEqual:self.colorArray[6]]) {
+            [self.mainView setBackgroundColor:self.colorArray[0]];
         } else {
-            [self.mainView setBackgroundColor:self.black];
+            colorIndex++;
+            [self.mainView setBackgroundColor:self.colorArray[colorIndex]];
         }
     }
 }
 
-- (void)useSwipeGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
+- (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
     [UIView animateWithDuration:0.5 animations:^{
-        if ([self.militaryTimeLabel.textColor isEqual:self.red]) {
-            [self changeColor:self.green];
-        } else if ([self.militaryTimeLabel.textColor isEqual:self.green]){
-            [self changeColor:self.blue];
-        } else if ([self.militaryTimeLabel.textColor isEqual:self.blue]){
-            [self changeColor:self.purple];
-        } else if ([self.militaryTimeLabel.textColor isEqual:self.purple]){
-            [self changeColor:self.orange];
-        } else if ([self.militaryTimeLabel.textColor isEqual:self.orange]){
-            [self changeColor:self.black];
-        } else if ([self.militaryTimeLabel.textColor isEqual:self.black]){
-            [self changeColor:self.yellow];
+        
+        int colorIndex = 0;
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
+                colorIndex = index;
+            }
+        }
+        if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[6]]) {
+            [self changeColor:self.colorArray[0]];
         } else {
-            [self changeColor:self.red];        }
+            colorIndex++;
+            [self changeColor:self.colorArray[colorIndex]];
+        }
     }];
+}
 
+- (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
+    [UIView animateWithDuration:0.5 animations:^{
+        
+        int colorIndex = 0;
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
+                colorIndex = index;
+            }
+        }
+        if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[0]]) {
+            [self changeColor:self.colorArray[6]];
+        } else {
+            colorIndex--;
+            [self changeColor:self.colorArray[colorIndex]];
+        }
+    }];
 }
 
 @end

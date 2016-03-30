@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet Digit *digitFour;
 @property (weak, nonatomic) IBOutlet Digit *digitFive;
 @property (weak, nonatomic) IBOutlet Digit *digitSix;
+@property (nonatomic) NSArray *digitArray;
 @property (weak, nonatomic) IBOutlet UIView *dotOne;
 @property (weak, nonatomic) IBOutlet UIView *dotTwo;
 @property (weak, nonatomic) IBOutlet UILabel *amPM;
@@ -41,17 +42,21 @@
 @property (nonatomic, retain) UIColor* blue;
 @property (nonatomic, retain) UIColor* purple;
 @property (nonatomic, retain) UIColor* orange;
-@property (nonatomic) NSArray *digitArray;
+@property (nonatomic) NSArray *colorArray;
 
 //methods to show appropriate segments for each number and blink the dots
 - (void)populateAllViews;
 - (void)blinkDots;
 
 //methods to change the text color and background color
-- (void)setColors;
+- (void)initWithRed:(float) red andGreen:(float)green andBlue:(float)blue andAlpha:(float)num;
+- (void)defineColors;
 - (void)startGestureForBackground;
 - (void)startGestureForText;
 - (void)changeColor: (UIColor *)color;
+- (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture;
+- (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture;
+- (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture;
 
 @end
 
