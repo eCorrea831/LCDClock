@@ -34,7 +34,7 @@
     switch ((long) number) {
         case 0:
             for (int segment = 0; segment <= 4; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             self.segmentSix.hidden = YES;
@@ -46,7 +46,7 @@
             self.segmentThree.hidden = YES;
             self.segmentFour.hidden = NO;
             for (int segment = 4; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = YES;
             }
             break;
@@ -56,7 +56,7 @@
             self.segmentThree.hidden = NO;
             self.segmentFour.hidden = YES;
             for (int segment = 4; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             break;
@@ -66,7 +66,7 @@
             self.segmentThree.hidden = YES;
             
             for (int segment = 3; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             break;
@@ -84,7 +84,7 @@
             self.segmentTwo.hidden = YES;
             self.segmentThree.hidden = YES;
             for (int segment = 3; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             break;
@@ -92,7 +92,7 @@
             self.segmentOne.hidden = NO;
             self.segmentTwo.hidden = YES;
             for (int segment = 2; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             break;
@@ -107,7 +107,7 @@
             break;
         case 8:
             for (int segment = 0; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             break;
@@ -116,13 +116,13 @@
             self.segmentTwo.hidden = NO;
             self.segmentThree.hidden = YES;
             for (int segment = 4; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = NO;
             }
             break;
         default:
             for (int segment = 0; segment <=6; segment++) {
-                UIView * thisSegment = self.segmentArray[segment];
+                UIView *thisSegment = self.segmentArray[segment];
                 thisSegment.hidden = YES;
             }
             break;

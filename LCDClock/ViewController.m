@@ -12,14 +12,31 @@
 
 @end
 
-//TODO: add logic so text color != background color
-//TODO: implement NSUserDefaults
 //TODO: implement a secondary archiving system
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.theBackgroundColor = [defaults integerForKey:@"defaultBackgroundColor"];
+    self.theTextColor = [defaults integerForKey:@"defaultTextColor"];
+    self.theTimeFormat = [defaults integerForKey:@"defaultTimeFormat"];
+    
+    //FIXIT: get NSUserDefaults working on defaultTimeformat
+    [self getCurrentMilitaryTime];
+    
+    
+//    if (self.theTimeFormat == 0) {
+//        [self getCurrentStandardTime];
+//        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+//    } else {
+//        [self getCurrentMilitaryTime];
+//        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+//    }
+
+    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
     
     [self populateAllViews];
     
@@ -38,7 +55,7 @@
 
 - (void)getCurrentStandardTime {
     
-    NSDate * now = [NSDate date];
+    NSDate *now = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"hh:mm:ss a"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -76,7 +93,7 @@
 
 - (void)getCurrentMilitaryTime {
     
-    NSDate * now = [NSDate date];
+    NSDate *now = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"hh:mm:ss a"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -117,12 +134,7 @@
     [self.digitSix showDigit:self.digitSixNumber];
     self.dotOne.hidden = NO;
     self.dotTwo.hidden = NO;
-    if ([self.militaryTimeSwitch isOn]) {
-        [self getCurrentMilitaryTime];
-    } else {
-        [self getCurrentStandardTime];
     }
-}
 
 - (void)blinkDots {
     self.dotOne.hidden = YES;
@@ -146,7 +158,7 @@
     self.colorArray = @[self.black, self.yellow, self.red, self.green, self.blue, self.purple, self.orange];
 }
 
-- (void)changeColor: (UIColor *)color {
+- (void)changeColor: (UIColor*)color {
     [self.militaryTimeLabel setTextColor:color];
     [self.amPM setTextColor:color];
     [self.dotOne setBackgroundColor:color];
@@ -162,8 +174,13 @@
 - (void)startGestureForBackground {
 
     //set initial color
-    [self.mainView setBackgroundColor:self.black];
-    
+    if (self.theBackgroundColor == 0) {
+        [self.mainView setBackgroundColor:self.black];
+        [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
+    }
+    else {
+        [self.mainView setBackgroundColor:self.colorArray[self.theBackgroundColor]];
+    }
     //get instance of long press gesture and add to mainView
     UILongPressGestureRecognizer *longPressBackground = [[UILongPressGestureRecognizer alloc] initWithTarget: self action: @selector(useLongPressGestureForBackground:)];
     [self.mainView addGestureRecognizer:longPressBackground];
@@ -172,8 +189,13 @@
 - (void)startGestureForText {
     
     //set initial color
-    [self changeColor:self.red];
-    
+    if (self.theTextColor == 0) {
+        [self changeColor:self.red];
+        [self updateNSUserDefaultsforKey:@"defaultTextColor"];
+    } else {
+        [self changeColor:self.colorArray[self.theTextColor]];
+    }
+
     //get instance of swipeLeft gesture and add to mainView
     UISwipeGestureRecognizer *swipeTextLeft = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeLeftGestureForText:)];
     swipeTextLeft.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -201,6 +223,7 @@
             [self.mainView setBackgroundColor:self.colorArray[colorIndex]];
         }
     }
+    [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
 }
 
 - (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
@@ -219,6 +242,7 @@
             [self changeColor:self.colorArray[colorIndex]];
         }
     }];
+    [self updateNSUserDefaultsforKey:@"defaultTextColor"];
 }
 
 - (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
@@ -237,6 +261,44 @@
             [self changeColor:self.colorArray[colorIndex]];
         }
     }];
+    [self updateNSUserDefaultsforKey:@"defaultTextColor"];
+}
+
+- (IBAction)timeFormatSwitch:(id)sender {
+    if([sender isOn]){
+        [self getCurrentMilitaryTime];
+    } else {
+        [self getCurrentStandardTime];
+    }
+    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+}
+
+- (void)updateNSUserDefaultsforKey:(NSString*)key {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([key isEqualToString:@"defaultBackgroundColor"]) {
+        int colorIndex = 0;
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
+                colorIndex = index;
+            }
+        }
+        [defaults setInteger:colorIndex forKey:@"defaultBackgroundColor"];
+    } else if ([key isEqualToString:@"defaultTextColor"]) {
+        int colorIndex = 0;
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
+                colorIndex = index;
+            }
+        }
+        [defaults setInteger:colorIndex forKey:@"defaultTextColor"];
+    } else if ([key isEqualToString:@"defaultTimeFormat"]) {
+        if (self.amPM.hidden == YES) {
+            [defaults setInteger:1 forKey:@"defaultTimeFormat"];
+        } else {
+            [defaults setInteger:0 forKey:@"defaultTimeFormat"];
+        }
+    }
+    [defaults synchronize];
 }
 
 @end
