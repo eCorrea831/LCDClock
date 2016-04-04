@@ -248,23 +248,32 @@
     [self.mainView addGestureRecognizer:swipeTextRight];
 }
 
-//FIXME: make method for backgroundcolorIndex & textColorIndex and replace in three gesture methods
+- (int)getIndexColorForBackground {
+    int backgroundColorIndex = 0;
+    for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+        if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
+            backgroundColorIndex = index;
+        }
+    }
+    return backgroundColorIndex;
+}
+
+- (int)getIndexColorForText {
+    int textColorIndex = 0;
+    for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+        if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
+            textColorIndex = index;
+        }
+    }
+    return textColorIndex;
+}
+
 - (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         
-        int backgroundColorIndex = 0;
-        int textColorIndex = 0;
+        int backgroundColorIndex = [self getIndexColorForBackground];
+        int textColorIndex = [self getIndexColorForText];
         
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
-                backgroundColorIndex = index;
-            }
-        }
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-                textColorIndex = index;
-            }
-        }
         if ([self.mainView.backgroundColor isEqual:self.colorArray[6]]) {
             if (textColorIndex == 0) {
                [self.mainView setBackgroundColor:self.colorArray[1]];
@@ -287,19 +296,9 @@
 - (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
     [UIView animateWithDuration:0.5 animations:^{
         
-        int backgroundColorIndex = 0;
-        int textColorIndex = 0;
+        int backgroundColorIndex = [self getIndexColorForBackground];
+        int textColorIndex = [self getIndexColorForText];
         
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
-                backgroundColorIndex = index;
-            }
-        }
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-                textColorIndex = index;
-            }
-        }
         if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[6]]) {
             if (backgroundColorIndex == 0) {
                 [self changeColor:self.colorArray[1]];
@@ -326,19 +325,9 @@
 - (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
     [UIView animateWithDuration:0.5 animations:^{
         
-        int backgroundColorIndex = 0;
-        int textColorIndex = 0;
+        int backgroundColorIndex = [self getIndexColorForBackground];
+        int textColorIndex = [self getIndexColorForText];
         
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
-                backgroundColorIndex = index;
-            }
-        }
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-                textColorIndex = index;
-            }
-        }
         if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[0]]) {
             if (backgroundColorIndex == 6) {
                 [self changeColor:self.colorArray[5]];

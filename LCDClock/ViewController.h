@@ -63,6 +63,8 @@
 - (void)startGestureForBackground;
 - (void)startGestureForText;
 - (void)changeColor: (UIColor*)color;
+- (int)getIndexColorForText;
+- (int)getIndexColorForBackground;
 - (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture;
 - (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture;
 - (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture;
