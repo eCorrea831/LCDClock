@@ -135,10 +135,10 @@
                                         <color key="textColor" red="1" green="0.052998385949999997" blue="0.2395857599" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ufl-5b-aiN">
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ufl-5b-aiN">
                                         <rect key="frame" x="131" y="0.0" width="51" height="31"/>
                                         <connections>
-                                            <action selector="timeFormatSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="fEQ-VL-jTq"/>
+                                            <action selector="changeTimeFormat:" destination="BYZ-38-t0r" eventType="valueChanged" id="NOr-gd-ZDz"/>
                                         </connections>
                                     </switch>
                                 </subviews>
@@ -169,7 +169,7 @@
                         <outlet property="dotTwo" destination="uCj-jj-x67" id="65v-XI-s6k"/>
                         <outlet property="mainView" destination="N8J-ub-Hnh" id="aND-Rv-GVj"/>
                         <outlet property="militaryTimeLabel" destination="Z2i-5y-W84" id="RC3-hP-iot"/>
-                        <outlet property="militaryTimeSwitch" destination="Ufl-5b-aiN" id="ac8-ke-lSZ"/>
+                        <outlet property="timeSwitch" destination="Ufl-5b-aiN" id="9ps-jl-3jE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

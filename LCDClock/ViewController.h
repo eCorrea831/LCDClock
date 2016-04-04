@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *amPM;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UILabel *militaryTimeLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *timeSwitch;
 
 //properties for changing numbers to show current time
 @property (nonatomic) long digitOneNumber;
@@ -50,9 +51,11 @@
 
 //methods to show appropriate segments for each number and blink the dots
 
-- (IBAction)timeFormatSwitch:(id)sender;
+//- (IBAction)timeFormatSwitch:(id)sender;
 - (void)populateAllViews;
 - (void)blinkDots;
+- (IBAction)changeTimeFormat:(id)sender;
+
 
 //methods to change the text color and background color
 - (void)initWithRed:(float) red andGreen:(float)green andBlue:(float)blue andAlpha:(float)num;

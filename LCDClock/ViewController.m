@@ -23,23 +23,19 @@
     self.theBackgroundColor = [defaults integerForKey:@"defaultBackgroundColor"];
     self.theTextColor = [defaults integerForKey:@"defaultTextColor"];
     self.theTimeFormat = [defaults integerForKey:@"defaultTimeFormat"];
-    
-    //FIXIT: get NSUserDefaults working on defaultTimeformat
-    [self getCurrentMilitaryTime];
-    
-    
-//    if (self.theTimeFormat == 0) {
-//        [self getCurrentStandardTime];
-//        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
-//    } else {
-//        [self getCurrentMilitaryTime];
-//        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
-//    }
 
-    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+    if (self.theTimeFormat == 0){
+        [self getCurrentStandardTime];
+        [self.timeSwitch setOn:NO animated:YES];
+        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+    } else {
+        [self getCurrentMilitaryTime];
+        [self.timeSwitch setOn:YES animated:YES];
+        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+    }
     
     [self populateAllViews];
-    
+
     [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(blinkDots) userInfo:nil repeats:YES];
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(populateAllViews) userInfo:nil repeats:YES];
     
@@ -61,13 +57,38 @@
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:now];
     
-    if ([components hour] - 12 >= 10) {
-        self.digitOne.hidden = NO;
-        self.digitOneNumber = ([components hour] - 12) / 10;
-        self.digitTwoNumber = ([components hour] - 12) % 10;
+    self.amPM.hidden = NO;
+    
+    if ([components hour] > 11) {
+        self.amPM.text = @"PM";
     } else {
-        self.digitOne.hidden = YES;
-        self.digitTwoNumber = ([components hour] - 12);
+        self.amPM.text = @"AM";
+    }
+    
+    if ([self.amPM.text isEqualToString:@"AM"]) {
+        if ([components hour] >= 10) {
+            self.digitOne.hidden = NO;
+            self.digitOneNumber = [components hour] / 10;
+            self.digitTwoNumber = [components hour] % 10;
+        } else {
+            self.digitOne.hidden = YES;
+            self.digitTwoNumber = [components hour];
+        }
+    } else {
+        if ([components hour] - 12 >= 10) {
+            self.digitOne.hidden = NO;
+            self.digitOneNumber = ([components hour] - 12) / 10;
+            self.digitTwoNumber = ([components hour] - 12) % 10;
+        } else {
+            if ([components hour] == 11 || [components hour] == 12) {
+                self.digitOne.hidden = NO;
+                self.digitOneNumber = [components hour] / 10;
+                self.digitTwoNumber = [components hour] % 10;
+            } else {
+                self.digitOne.hidden = YES;
+                self.digitTwoNumber = ([components hour] - 12);
+            }
+        }
     }
     if ([components minute] >= 10) {
         self.digitThreeNumber = [components minute] / 10;
@@ -83,12 +104,6 @@
         self.digitFiveNumber = 0;
         self.digitSixNumber = [components second];
     }
-    if ([components hour] > 11) {
-        self.amPM.text = @"PM";
-    } else {
-        self.amPM.text = @"AM";
-    }
-    self.amPM.hidden = NO;
 }
 
 - (void)getCurrentMilitaryTime {
@@ -103,9 +118,9 @@
         self.digitOne.hidden = NO;
         self.digitOneNumber = [components hour] / 10;
         self.digitTwoNumber = [components hour] % 10;
+        
     } else {
-        self.digitOne.hidden = NO;
-        self.digitOneNumber = 0;
+        self.digitOne.hidden = YES;
         self.digitTwoNumber = [components hour];
     }
     if ([components minute] >= 10) {
@@ -125,16 +140,42 @@
     self.amPM.hidden = YES;
 }
 
+//FIXME: get defaults working for commented out code to replace lines 152 - 157
 - (void)populateAllViews {
+    
+    long digitNumberArray[] = {self.digitOneNumber, self.digitTwoNumber, self.digitThreeNumber, self.digitFourNumber, self.digitFiveNumber, self.digitSixNumber};
+    
+    for (int index = 4; index < 6; index++) {
+        [self.digitArray[index] showDigit:digitNumberArray[index]];
+    }
+    
     [self.digitOne showDigit:self.digitOneNumber];
     [self.digitTwo showDigit:self.digitTwoNumber];
     [self.digitThree showDigit:self.digitThreeNumber];
     [self.digitFour showDigit:self.digitFourNumber];
-    [self.digitFive showDigit:self.digitFiveNumber];
-    [self.digitSix showDigit:self.digitSixNumber];
+//    [self.digitFive showDigit:self.digitFiveNumber];
+//    [self.digitSix showDigit:self.digitSixNumber];
+    
     self.dotOne.hidden = NO;
     self.dotTwo.hidden = NO;
+    
+    if ([self.timeSwitch isOn]){
+        [self getCurrentMilitaryTime];
+        [self.timeSwitch setOn:YES animated:YES];
+    } else {
+        [self getCurrentStandardTime];
+        [self.timeSwitch setOn:NO animated:YES];
     }
+}
+
+- (IBAction)changeTimeFormat:(id)sender {
+    if ([sender isOn]) {
+        [self getCurrentMilitaryTime];
+    } else {
+        [self getCurrentStandardTime];
+    }
+    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+}
 
 - (void)blinkDots {
     self.dotOne.hidden = YES;
@@ -207,20 +248,37 @@
     [self.mainView addGestureRecognizer:swipeTextRight];
 }
 
+//FIXME: make method for backgroundcolorIndex & textColorIndex and replace in three gesture methods
 - (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture {
     if (longPressGesture.state == UIGestureRecognizerStateBegan) {
         
-        int colorIndex = 0;
+        int backgroundColorIndex = 0;
+        int textColorIndex = 0;
+        
         for (int index = 0; index <= [self.colorArray count] - 1; index++) {
             if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
-                colorIndex = index;
+                backgroundColorIndex = index;
+            }
+        }
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
+                textColorIndex = index;
             }
         }
         if ([self.mainView.backgroundColor isEqual:self.colorArray[6]]) {
-            [self.mainView setBackgroundColor:self.colorArray[0]];
+            if (textColorIndex == 0) {
+               [self.mainView setBackgroundColor:self.colorArray[1]];
+            } else {
+                [self.mainView setBackgroundColor:self.colorArray[0]];
+            }
         } else {
-            colorIndex++;
-            [self.mainView setBackgroundColor:self.colorArray[colorIndex]];
+            backgroundColorIndex++;
+            if (backgroundColorIndex == textColorIndex) {
+                backgroundColorIndex++;
+                [self.mainView setBackgroundColor:self.colorArray[backgroundColorIndex]];
+            } else {
+                [self.mainView setBackgroundColor:self.colorArray[backgroundColorIndex]];
+            }
         }
     }
     [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
@@ -229,17 +287,37 @@
 - (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
     [UIView animateWithDuration:0.5 animations:^{
         
-        int colorIndex = 0;
+        int backgroundColorIndex = 0;
+        int textColorIndex = 0;
+        
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
+                backgroundColorIndex = index;
+            }
+        }
         for (int index = 0; index <= [self.colorArray count] - 1; index++) {
             if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-                colorIndex = index;
+                textColorIndex = index;
             }
         }
         if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[6]]) {
-            [self changeColor:self.colorArray[0]];
+            if (backgroundColorIndex == 0) {
+                [self changeColor:self.colorArray[1]];
+            } else {
+                [self changeColor:self.colorArray[0]];
+            }
         } else {
-            colorIndex++;
-            [self changeColor:self.colorArray[colorIndex]];
+            textColorIndex++;
+            if (textColorIndex == backgroundColorIndex) {
+                if (textColorIndex == 6) {
+                    textColorIndex = 0;
+                } else {
+                  textColorIndex++;
+                }
+                [self changeColor:self.colorArray[textColorIndex]];
+            } else {
+                [self changeColor:self.colorArray[textColorIndex]];
+            }
         }
     }];
     [self updateNSUserDefaultsforKey:@"defaultTextColor"];
@@ -248,17 +326,37 @@
 - (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
     [UIView animateWithDuration:0.5 animations:^{
         
-        int colorIndex = 0;
+        int backgroundColorIndex = 0;
+        int textColorIndex = 0;
+        
+        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
+            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
+                backgroundColorIndex = index;
+            }
+        }
         for (int index = 0; index <= [self.colorArray count] - 1; index++) {
             if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-                colorIndex = index;
+                textColorIndex = index;
             }
         }
         if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[0]]) {
-            [self changeColor:self.colorArray[6]];
+            if (backgroundColorIndex == 6) {
+                [self changeColor:self.colorArray[5]];
+            } else {
+                [self changeColor:self.colorArray[6]];
+            }
         } else {
-            colorIndex--;
-            [self changeColor:self.colorArray[colorIndex]];
+            textColorIndex--;
+            if (textColorIndex == backgroundColorIndex) {
+                if (textColorIndex == 0) {
+                    textColorIndex = 6;
+                } else {
+                  textColorIndex--;
+                }
+                [self changeColor:self.colorArray[textColorIndex]];
+            } else {
+                [self changeColor:self.colorArray[textColorIndex]];
+            }
         }
     }];
     [self updateNSUserDefaultsforKey:@"defaultTextColor"];
