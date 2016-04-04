@@ -19,11 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //assigns defaults for archiving
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.theBackgroundColor = [defaults integerForKey:@"defaultBackgroundColor"];
     self.theTextColor = [defaults integerForKey:@"defaultTextColor"];
     self.theTimeFormat = [defaults integerForKey:@"defaultTimeFormat"];
 
+    //sets time format to standard time if it's the first time opening, and default after
     if (self.theTimeFormat == 0){
         [self getCurrentStandardTime];
         [self.timeSwitch setOn:NO animated:YES];
@@ -34,11 +36,14 @@
         [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
     }
     
+    //gets segments and label showing according to time format
     [self populateAllViews];
 
+    //timers to change segments to display current time each second and blink the dots
     [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(blinkDots) userInfo:nil repeats:YES];
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(populateAllViews) userInfo:nil repeats:YES];
     
+    //sets colors and array that will be used for gesture methods and sets gesture methods
     [self defineColors];
     self.digitArray = @[self.digitOne, self.digitTwo, self.digitThree, self.digitFour, self.digitFive, self.digitSix];
     [self startGestureForBackground];
@@ -49,6 +54,7 @@
     [super didReceiveMemoryWarning];
 }
 
+//displays time in standard time format
 - (void)getCurrentStandardTime {
     
     NSDate *now = [NSDate date];
@@ -106,6 +112,7 @@
     }
 }
 
+//displays time in military time format
 - (void)getCurrentMilitaryTime {
     
     NSDate *now = [NSDate date];
@@ -140,6 +147,16 @@
     self.amPM.hidden = YES;
 }
 
+//defines action for switch
+- (IBAction)changeTimeFormat:(id)sender {
+    if ([sender isOn]) {
+        [self getCurrentMilitaryTime];
+    } else {
+        [self getCurrentStandardTime];
+    }
+    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+}
+
 //FIXME: get defaults working for commented out code to replace lines 152 - 157
 - (void)populateAllViews {
     
@@ -168,15 +185,6 @@
     }
 }
 
-- (IBAction)changeTimeFormat:(id)sender {
-    if ([sender isOn]) {
-        [self getCurrentMilitaryTime];
-    } else {
-        [self getCurrentStandardTime];
-    }
-    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
-}
-
 - (void)blinkDots {
     self.dotOne.hidden = YES;
     self.dotTwo.hidden = YES;
@@ -186,7 +194,6 @@
     [UIColor colorWithRed:red green:green blue:blue alpha:num];
 }
 
-//set colors for tap method
 - (void)defineColors {
     self.black = [[UIColor alloc] initWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
     self.yellow = [[UIColor alloc] initWithRed:0.90 green:0.89 blue:0.62 alpha:1.0];
@@ -199,6 +206,7 @@
     self.colorArray = @[self.black, self.yellow, self.red, self.green, self.blue, self.purple, self.orange];
 }
 
+//changes colors for gesture methods
 - (void)changeColor: (UIColor*)color {
     [self.militaryTimeLabel setTextColor:color];
     [self.amPM setTextColor:color];
@@ -213,8 +221,7 @@
 }
 
 - (void)startGestureForBackground {
-
-    //set initial color
+    //sets initial color
     if (self.theBackgroundColor == 0) {
         [self.mainView setBackgroundColor:self.black];
         [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
@@ -222,32 +229,31 @@
     else {
         [self.mainView setBackgroundColor:self.colorArray[self.theBackgroundColor]];
     }
-    //get instance of long press gesture and add to mainView
+    //gets instance of long press gesture and adds to mainView
     UILongPressGestureRecognizer *longPressBackground = [[UILongPressGestureRecognizer alloc] initWithTarget: self action: @selector(useLongPressGestureForBackground:)];
     [self.mainView addGestureRecognizer:longPressBackground];
 }
 
 - (void)startGestureForText {
-    
-    //set initial color
+    //sets initial color
     if (self.theTextColor == 0) {
         [self changeColor:self.red];
         [self updateNSUserDefaultsforKey:@"defaultTextColor"];
     } else {
         [self changeColor:self.colorArray[self.theTextColor]];
     }
-
-    //get instance of swipeLeft gesture and add to mainView
+    //gets instance of swipeLeft gesture and adds to mainView
     UISwipeGestureRecognizer *swipeTextLeft = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeLeftGestureForText:)];
     swipeTextLeft.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.mainView addGestureRecognizer:swipeTextLeft];
     
-    //get instance of swipeRight gesture and add to mainView
+    //gets instance of swipeRight gesture and adds to mainView
     UISwipeGestureRecognizer *swipeTextRight = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeRightGestureForText:)];
     swipeTextRight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.mainView addGestureRecognizer:swipeTextRight];
 }
 
+//gets the index of the background color from the array for use with gesture methods
 - (int)getIndexColorForBackground {
     int backgroundColorIndex = 0;
     for (int index = 0; index <= [self.colorArray count] - 1; index++) {
@@ -258,6 +264,7 @@
     return backgroundColorIndex;
 }
 
+//gets the index of the text color from the array for use with gesture methods
 - (int)getIndexColorForText {
     int textColorIndex = 0;
     for (int index = 0; index <= [self.colorArray count] - 1; index++) {
@@ -351,15 +358,7 @@
     [self updateNSUserDefaultsforKey:@"defaultTextColor"];
 }
 
-- (IBAction)timeFormatSwitch:(id)sender {
-    if([sender isOn]){
-        [self getCurrentMilitaryTime];
-    } else {
-        [self getCurrentStandardTime];
-    }
-    [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
-}
-
+//updates defaults for archiving
 - (void)updateNSUserDefaultsforKey:(NSString*)key {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([key isEqualToString:@"defaultBackgroundColor"]) {
