@@ -31,11 +31,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LCDClock/ViewController.m"
-            timestampString = "481479877.644352"
+            timestampString = "481494157.762276"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "-populateAllViews"
             landmarkType = "5">
          </BreakpointContent>

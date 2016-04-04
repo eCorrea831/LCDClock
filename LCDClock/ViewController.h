@@ -49,6 +49,11 @@
 @property (nonatomic) NSInteger theTextColor;
 @property (nonatomic) NSInteger theTimeFormat;
 
+//properties for plist
+@property (nonatomic) NSNumber *userBackgroundColor;
+@property (nonatomic) NSNumber *userTextColor;
+@property (nonatomic) NSNumber *userTimeFormat;
+
 //methods to show appropriate segments for each number and blink the dots
 
 //- (IBAction)timeFormatSwitch:(id)sender;

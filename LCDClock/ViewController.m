@@ -12,7 +12,7 @@
 
 @end
 
-//TODO: implement a secondary archiving system
+//FIXME: correct constraint issues in debugger when app runs
 
 @implementation ViewController
 
@@ -24,16 +24,21 @@
     self.theBackgroundColor = [defaults integerForKey:@"defaultBackgroundColor"];
     self.theTextColor = [defaults integerForKey:@"defaultTextColor"];
     self.theTimeFormat = [defaults integerForKey:@"defaultTimeFormat"];
+    
+    //calls plist method
+    [self loadData];
 
     //sets time format to standard time if it's the first time opening, and default after
     if (self.theTimeFormat == 0){
         [self getCurrentStandardTime];
         [self.timeSwitch setOn:NO animated:YES];
         [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+        [self saveData];
     } else {
         [self getCurrentMilitaryTime];
         [self.timeSwitch setOn:YES animated:YES];
         [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+        [self saveData];
     }
     
     //gets segments and label showing according to time format
@@ -155,6 +160,7 @@
         [self getCurrentStandardTime];
     }
     [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
+    [self saveData];
 }
 
 //FIXME: get defaults working for commented out code to replace lines 152 - 157
@@ -225,6 +231,7 @@
     if (self.theBackgroundColor == 0) {
         [self.mainView setBackgroundColor:self.black];
         [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
+        [self saveData];
     }
     else {
         [self.mainView setBackgroundColor:self.colorArray[self.theBackgroundColor]];
@@ -239,6 +246,7 @@
     if (self.theTextColor == 0) {
         [self changeColor:self.red];
         [self updateNSUserDefaultsforKey:@"defaultTextColor"];
+        [self saveData];
     } else {
         [self changeColor:self.colorArray[self.theTextColor]];
     }
@@ -298,6 +306,7 @@
         }
     }
     [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
+    [self saveData];
 }
 
 - (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
@@ -327,6 +336,7 @@
         }
     }];
     [self updateNSUserDefaultsforKey:@"defaultTextColor"];
+    [self saveData];
 }
 
 - (void)useSwipeRightGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
@@ -356,35 +366,58 @@
         }
     }];
     [self updateNSUserDefaultsforKey:@"defaultTextColor"];
+    [self saveData];
+}
+
+- (int)getTimeFormat {
+    if (self.amPM.hidden == YES) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 //updates defaults for archiving
 - (void)updateNSUserDefaultsforKey:(NSString*)key {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([key isEqualToString:@"defaultBackgroundColor"]) {
-        int colorIndex = 0;
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
-                colorIndex = index;
-            }
-        }
-        [defaults setInteger:colorIndex forKey:@"defaultBackgroundColor"];
+        [defaults setInteger:[self getIndexColorForBackground] forKey:@"defaultBackgroundColor"];
     } else if ([key isEqualToString:@"defaultTextColor"]) {
-        int colorIndex = 0;
-        for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-            if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-                colorIndex = index;
-            }
-        }
-        [defaults setInteger:colorIndex forKey:@"defaultTextColor"];
+        [defaults setInteger:[self getIndexColorForText] forKey:@"defaultTextColor"];
     } else if ([key isEqualToString:@"defaultTimeFormat"]) {
-        if (self.amPM.hidden == YES) {
-            [defaults setInteger:1 forKey:@"defaultTimeFormat"];
-        } else {
-            [defaults setInteger:0 forKey:@"defaultTimeFormat"];
-        }
+        [defaults setInteger:[self getTimeFormat] forKey:@"defaultTimeFormat"];
     }
     [defaults synchronize];
+}
+
+//implements plist
+- (NSString *)getFilePath {
+    NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [[pathArray objectAtIndex:0] stringByAppendingPathComponent:@"settings.plist"];
+}
+
+- (void)saveData {
+    
+    NSArray *value = [[NSArray alloc] initWithObjects:
+                      [NSNumber numberWithInt:
+                      [self getIndexColorForBackground]],
+                      [NSNumber numberWithInt:[self getIndexColorForText]], [NSNumber numberWithInt:[self getTimeFormat]], nil];
+    NSString *path = [self getFilePath];
+    
+    [value writeToFile:path atomically:YES];
+}
+
+- (void)loadData {
+    NSString *myPath = [self getFilePath];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
+    
+    if (fileExists) {
+        NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
+        
+        self.userBackgroundColor = [values objectAtIndex:0];
+        self.userTextColor = [values objectAtIndex:1];
+        self.userTimeFormat = [values objectAtIndex:2];
+    }
 }
 
 @end
