@@ -18,6 +18,7 @@
         view.frame = self.bounds;
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:view];
+        [self createSegementArray];
     }
 
     return self;
@@ -28,8 +29,6 @@
 }
 
 - (void)showDigit:(long)number {
-    
-    [self createSegementArray];
     
     switch ((long) number) {
         case 0:

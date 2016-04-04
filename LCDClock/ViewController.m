@@ -25,20 +25,16 @@
     self.theTextColor = [defaults integerForKey:@"defaultTextColor"];
     self.theTimeFormat = [defaults integerForKey:@"defaultTimeFormat"];
     
-    //calls plist method
+    //loads data from plist into view
     [self loadData];
 
     //sets time format to standard time if it's the first time opening, and default after
     if (self.theTimeFormat == 0){
         [self getCurrentStandardTime];
         [self.timeSwitch setOn:NO animated:YES];
-        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
-        [self saveData];
     } else {
         [self getCurrentMilitaryTime];
         [self.timeSwitch setOn:YES animated:YES];
-        [self updateNSUserDefaultsforKey:@"defaultTimeFormat"];
-        [self saveData];
     }
     
     //gets segments and label showing according to time format
@@ -50,7 +46,7 @@
     
     //sets colors and array that will be used for gesture methods and sets gesture methods
     [self defineColors];
-    self.digitArray = @[self.digitOne, self.digitTwo, self.digitThree, self.digitFour, self.digitFive, self.digitSix];
+    self.digitArray = [[NSMutableArray alloc] initWithArray:@[self.digitOne, self.digitTwo, self.digitThree, self.digitFour, self.digitFive, self.digitSix]];
     [self startGestureForBackground];
     [self startGestureForText];
 }
@@ -166,18 +162,13 @@
 //FIXME: get defaults working for commented out code to replace lines 152 - 157
 - (void)populateAllViews {
     
-    long digitNumberArray[] = {self.digitOneNumber, self.digitTwoNumber, self.digitThreeNumber, self.digitFourNumber, self.digitFiveNumber, self.digitSixNumber};
     
-    for (int index = 4; index < 6; index++) {
-        [self.digitArray[index] showDigit:digitNumberArray[index]];
-    }
-    
-    [self.digitOne showDigit:self.digitOneNumber];
-    [self.digitTwo showDigit:self.digitTwoNumber];
-    [self.digitThree showDigit:self.digitThreeNumber];
-    [self.digitFour showDigit:self.digitFourNumber];
-//    [self.digitFive showDigit:self.digitFiveNumber];
-//    [self.digitSix showDigit:self.digitSixNumber];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        long digitNumberArray[] = {self.digitOneNumber, self.digitTwoNumber, self.digitThreeNumber, self.digitFourNumber, self.digitFiveNumber, self.digitSixNumber};
+        for (int index = 0; index < 6; index++) {
+            [self.digitArray[index] showDigit:digitNumberArray[index]];
+        }
+    });
     
     self.dotOne.hidden = NO;
     self.dotTwo.hidden = NO;
@@ -371,9 +362,9 @@
 
 - (int)getTimeFormat {
     if (self.amPM.hidden == YES) {
-        return 1;
+        return 1; //militaryTimeFormat
     } else {
-        return 0;
+        return 0; //standardTimeFormat
     }
 }
 
@@ -390,21 +381,21 @@
     [defaults synchronize];
 }
 
-//implements plist
+//creates plist for secondary archiving system
 - (NSString *)getFilePath {
     NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [[pathArray objectAtIndex:0] stringByAppendingPathComponent:@"settings.plist"];
 }
 
+//saves data to plist
 - (void)saveData {
     
     NSArray *value = [[NSArray alloc] initWithObjects:
                       [NSNumber numberWithInt:
                       [self getIndexColorForBackground]],
                       [NSNumber numberWithInt:[self getIndexColorForText]], [NSNumber numberWithInt:[self getTimeFormat]], nil];
-    NSString *path = [self getFilePath];
     
-    [value writeToFile:path atomically:YES];
+    [value writeToFile:[self getFilePath] atomically:YES];
 }
 
 - (void)loadData {

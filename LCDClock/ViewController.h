@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet Digit *digitFour;
 @property (weak, nonatomic) IBOutlet Digit *digitFive;
 @property (weak, nonatomic) IBOutlet Digit *digitSix;
-@property (nonatomic) NSArray *digitArray;
+@property (nonatomic) NSMutableArray *digitArray;
 @property (weak, nonatomic) IBOutlet UIView *dotOne;
 @property (weak, nonatomic) IBOutlet UIView *dotTwo;
 @property (weak, nonatomic) IBOutlet UILabel *amPM;
@@ -60,7 +60,6 @@
 - (void)populateAllViews;
 - (void)blinkDots;
 - (IBAction)changeTimeFormat:(id)sender;
-
 
 //methods to change the text color and background color
 - (void)initWithRed:(float) red andGreen:(float)green andBlue:(float)blue andAlpha:(float)num;
