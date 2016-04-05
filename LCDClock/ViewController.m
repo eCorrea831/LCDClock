@@ -12,8 +12,6 @@
 
 @end
 
-//FIXME: correct constraint issues in debugger when app runs
-
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -45,14 +43,119 @@
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(populateAllViews) userInfo:nil repeats:YES];
     
     //sets colors and array that will be used for gesture methods and sets gesture methods
-    [self defineColors];
     self.digitArray = [[NSMutableArray alloc] initWithArray:@[self.digitOne, self.digitTwo, self.digitThree, self.digitFour, self.digitFive, self.digitSix]];
+    [self setInitialBackgroundColor];
+    [self setInitialTextColor];
     [self startGestureForBackground];
     [self startGestureForText];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+//updates defaults for archiving
+- (void)updateNSUserDefaultsforKey:(NSString*)key {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([key isEqualToString:@"defaultBackgroundColor"]) {
+        [defaults setInteger:[self getIndexColorForBackground] forKey:@"defaultBackgroundColor"];
+    } else if ([key isEqualToString:@"defaultTextColor"]) {
+        [defaults setInteger:[self getIndexColorForText] forKey:@"defaultTextColor"];
+    } else if ([key isEqualToString:@"defaultTimeFormat"]) {
+        [defaults setInteger:[self getTimeFormat] forKey:@"defaultTimeFormat"];
+    }
+    [defaults synchronize];
+}
+
+//creates plist for secondary archiving system
+- (NSString *)getFilePath {
+    NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [[pathArray objectAtIndex:0] stringByAppendingPathComponent:@"settings.plist"];
+}
+
+//saves data to plist
+- (void)saveData {
+    
+    NSArray *value = [[NSArray alloc] initWithObjects:[NSNumber numberWithInt:[self getIndexColorForBackground]],[NSNumber numberWithInt:[self getIndexColorForText]], [NSNumber numberWithInt:[self getTimeFormat]], nil];
+    
+    [value writeToFile:[self getFilePath] atomically:YES];
+}
+
+- (void)loadData {
+    NSString *myPath = [self getFilePath];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
+    
+    if (fileExists) {
+        NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
+        
+        self.userBackgroundColor = [values objectAtIndex:0];
+        self.userTextColor = [values objectAtIndex:1];
+        self.userTimeFormat = [values objectAtIndex:2];
+    }
+}
+
+//gets the index of the background color from the array for use with gesture methods
+- (int)getIndexColorForBackground {
+    int backgroundColorIndex = 0;
+    for (int index = 0; index <= [[Colors colorArray] count] - 1; index++) {
+        if ([[Colors colorArray][index] isEqual:self.mainView.backgroundColor]) {
+            backgroundColorIndex = index;
+        }
+    }
+    return backgroundColorIndex;
+}
+
+//sets initial background color
+- (void)setInitialBackgroundColor {
+    if (self.theBackgroundColor == 0) {
+        [self.mainView setBackgroundColor:[Colors black]];
+        [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
+        [self saveData];
+    }
+    else {
+        [self.mainView setBackgroundColor:[Colors colorArray][self.theBackgroundColor]];
+    }
+}
+
+//gets the index of the text color from the array for use with gesture methods
+- (int)getIndexColorForText {
+    int textColorIndex = 0;
+    for (int index = 0; index <= [[Colors colorArray] count] - 1; index++) {
+        if ([[Colors colorArray][index] isEqual:self.militaryTimeLabel.textColor]) {
+            textColorIndex = index;
+        }
+    }
+    return textColorIndex;
+}
+
+//sets initial text color
+- (void)setInitialTextColor {
+    [self changeColor:[Colors colorArray][self.theTextColor]];
+    if (self.theTextColor == self.theBackgroundColor) {
+        [self changeColor:[Colors red]];
+    }
+}
+
+//changes colors for gesture methods
+- (void)changeColor: (UIColor*)color {
+    [self.militaryTimeLabel setTextColor:color];
+    [self.amPM setTextColor:color];
+    [self.dotOne setBackgroundColor:color];
+    [self.dotTwo setBackgroundColor:color];
+    
+    for (Digit *digit in self.digitArray) {
+        for (UIView *segment in digit.segmentArray) {
+            segment.backgroundColor = color;
+        }
+    }
+}
+
+- (int)getTimeFormat {
+    if (self.amPM.hidden == YES) {
+        return 1; //militaryTimeFormat
+    } else {
+        return 0; //standardTimeFormat
+    }
 }
 
 //displays time in standard time format
@@ -159,16 +262,12 @@
     [self saveData];
 }
 
-//FIXME: get defaults working for commented out code to replace lines 152 - 157
 - (void)populateAllViews {
     
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        long digitNumberArray[] = {self.digitOneNumber, self.digitTwoNumber, self.digitThreeNumber, self.digitFourNumber, self.digitFiveNumber, self.digitSixNumber};
-        for (int index = 0; index < 6; index++) {
-            [self.digitArray[index] showDigit:digitNumberArray[index]];
-        }
-    });
+    long digitNumberArray[] = {self.digitOneNumber, self.digitTwoNumber, self.digitThreeNumber, self.digitFourNumber, self.digitFiveNumber, self.digitSixNumber};
+    for (int index = 0; index < 6; index++) {
+        [self.digitArray[index] showDigit:digitNumberArray[index]];
+    }
     
     self.dotOne.hidden = NO;
     self.dotTwo.hidden = NO;
@@ -187,60 +286,40 @@
     self.dotTwo.hidden = YES;
 }
 
-- (void)initWithRed:(float)red andGreen:(float)green andBlue:(float)blue andAlpha:(float)num  {
-    [UIColor colorWithRed:red green:green blue:blue alpha:num];
-}
-
-- (void)defineColors {
-    self.black = [[UIColor alloc] initWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-    self.yellow = [[UIColor alloc] initWithRed:0.90 green:0.89 blue:0.62 alpha:1.0];
-    self.red = [[UIColor alloc] initWithRed:0.84 green:0.13 blue:0.13 alpha:1.0];
-    self.green = [[UIColor alloc] initWithRed:0.58 green:0.77 blue:0.49 alpha:1.0];
-    self.blue = [[UIColor alloc] initWithRed:0.64 green:0.76 blue:0.96 alpha:1.0];
-    self.purple = [[UIColor alloc] initWithRed:0.56 green:0.49 blue:0.76 alpha:1.0];
-    self.orange = [[UIColor alloc] initWithRed:0.96 green:0.70 blue:0.42 alpha:1.0];
-    
-    self.colorArray = @[self.black, self.yellow, self.red, self.green, self.blue, self.purple, self.orange];
-}
-
-//changes colors for gesture methods
-- (void)changeColor: (UIColor*)color {
-    [self.militaryTimeLabel setTextColor:color];
-    [self.amPM setTextColor:color];
-    [self.dotOne setBackgroundColor:color];
-    [self.dotTwo setBackgroundColor:color];
-  
-    for (Digit *digit in self.digitArray) {
-        for (UIView *segment in digit.segmentArray) {
-            segment.backgroundColor = color;
-        }
-    }
-}
-
 - (void)startGestureForBackground {
-    //sets initial color
-    if (self.theBackgroundColor == 0) {
-        [self.mainView setBackgroundColor:self.black];
-        [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
-        [self saveData];
-    }
-    else {
-        [self.mainView setBackgroundColor:self.colorArray[self.theBackgroundColor]];
-    }
     //gets instance of long press gesture and adds to mainView
     UILongPressGestureRecognizer *longPressBackground = [[UILongPressGestureRecognizer alloc] initWithTarget: self action: @selector(useLongPressGestureForBackground:)];
     [self.mainView addGestureRecognizer:longPressBackground];
 }
 
-- (void)startGestureForText {
-    //sets initial color
-    if (self.theTextColor == 0) {
-        [self changeColor:self.red];
-        [self updateNSUserDefaultsforKey:@"defaultTextColor"];
-        [self saveData];
-    } else {
-        [self changeColor:self.colorArray[self.theTextColor]];
+- (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture {
+    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
+        
+        int backgroundColorIndex = [self getIndexColorForBackground];
+        int textColorIndex = [self getIndexColorForText];
+        
+        if ([self.mainView.backgroundColor isEqual:[Colors colorArray][6]]) {
+            if (textColorIndex == 0) {
+                [self.mainView setBackgroundColor:[Colors colorArray][1]];
+            } else {
+                [self.mainView setBackgroundColor:[Colors colorArray][0]];
+            }
+        } else {
+            backgroundColorIndex++;
+            if (backgroundColorIndex == textColorIndex) {
+                backgroundColorIndex++;
+                [self.mainView setBackgroundColor:[Colors colorArray][backgroundColorIndex]];
+            } else {
+                [self.mainView setBackgroundColor:[Colors colorArray][backgroundColorIndex]];
+            }
+        }
     }
+    [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
+    [self saveData];
+}
+
+- (void)startGestureForText {
+    
     //gets instance of swipeLeft gesture and adds to mainView
     UISwipeGestureRecognizer *swipeTextLeft = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(useSwipeLeftGestureForText:)];
     swipeTextLeft.direction = UISwipeGestureRecognizerDirectionLeft;
@@ -252,65 +331,17 @@
     [self.mainView addGestureRecognizer:swipeTextRight];
 }
 
-//gets the index of the background color from the array for use with gesture methods
-- (int)getIndexColorForBackground {
-    int backgroundColorIndex = 0;
-    for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-        if ([self.colorArray[index] isEqual:self.mainView.backgroundColor]) {
-            backgroundColorIndex = index;
-        }
-    }
-    return backgroundColorIndex;
-}
-
-//gets the index of the text color from the array for use with gesture methods
-- (int)getIndexColorForText {
-    int textColorIndex = 0;
-    for (int index = 0; index <= [self.colorArray count] - 1; index++) {
-        if ([self.colorArray[index] isEqual:self.militaryTimeLabel.textColor]) {
-            textColorIndex = index;
-        }
-    }
-    return textColorIndex;
-}
-
-- (void)useLongPressGestureForBackground: (UILongPressGestureRecognizer*) longPressGesture {
-    if (longPressGesture.state == UIGestureRecognizerStateBegan) {
-        
-        int backgroundColorIndex = [self getIndexColorForBackground];
-        int textColorIndex = [self getIndexColorForText];
-        
-        if ([self.mainView.backgroundColor isEqual:self.colorArray[6]]) {
-            if (textColorIndex == 0) {
-               [self.mainView setBackgroundColor:self.colorArray[1]];
-            } else {
-                [self.mainView setBackgroundColor:self.colorArray[0]];
-            }
-        } else {
-            backgroundColorIndex++;
-            if (backgroundColorIndex == textColorIndex) {
-                backgroundColorIndex++;
-                [self.mainView setBackgroundColor:self.colorArray[backgroundColorIndex]];
-            } else {
-                [self.mainView setBackgroundColor:self.colorArray[backgroundColorIndex]];
-            }
-        }
-    }
-    [self updateNSUserDefaultsforKey:@"defaultBackgroundColor"];
-    [self saveData];
-}
-
 - (void)useSwipeLeftGestureForText: (UISwipeGestureRecognizer*) swipeGesture {
     [UIView animateWithDuration:0.5 animations:^{
         
         int backgroundColorIndex = [self getIndexColorForBackground];
         int textColorIndex = [self getIndexColorForText];
         
-        if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[6]]) {
+        if ([self.militaryTimeLabel.textColor isEqual:[Colors colorArray][6]]) {
             if (backgroundColorIndex == 0) {
-                [self changeColor:self.colorArray[1]];
+                [self changeColor:[Colors colorArray][1]];
             } else {
-                [self changeColor:self.colorArray[0]];
+                [self changeColor:[Colors colorArray][0]];
             }
         } else {
             textColorIndex++;
@@ -318,11 +349,11 @@
                 if (textColorIndex == 6) {
                     textColorIndex = 0;
                 } else {
-                  textColorIndex++;
+                    textColorIndex++;
                 }
-                [self changeColor:self.colorArray[textColorIndex]];
+                [self changeColor:[Colors colorArray][textColorIndex]];
             } else {
-                [self changeColor:self.colorArray[textColorIndex]];
+                [self changeColor:[Colors colorArray][textColorIndex]];
             }
         }
     }];
@@ -336,11 +367,11 @@
         int backgroundColorIndex = [self getIndexColorForBackground];
         int textColorIndex = [self getIndexColorForText];
         
-        if ([self.militaryTimeLabel.textColor isEqual:self.colorArray[0]]) {
+        if ([self.militaryTimeLabel.textColor isEqual:[Colors colorArray][0]]) {
             if (backgroundColorIndex == 6) {
-                [self changeColor:self.colorArray[5]];
+                [self changeColor:[Colors colorArray][5]];
             } else {
-                [self changeColor:self.colorArray[6]];
+                [self changeColor:[Colors colorArray][6]];
             }
         } else {
             textColorIndex--;
@@ -348,67 +379,16 @@
                 if (textColorIndex == 0) {
                     textColorIndex = 6;
                 } else {
-                  textColorIndex--;
+                    textColorIndex--;
                 }
-                [self changeColor:self.colorArray[textColorIndex]];
+                [self changeColor:[Colors colorArray][textColorIndex]];
             } else {
-                [self changeColor:self.colorArray[textColorIndex]];
+                [self changeColor:[Colors colorArray][textColorIndex]];
             }
         }
     }];
     [self updateNSUserDefaultsforKey:@"defaultTextColor"];
     [self saveData];
-}
-
-- (int)getTimeFormat {
-    if (self.amPM.hidden == YES) {
-        return 1; //militaryTimeFormat
-    } else {
-        return 0; //standardTimeFormat
-    }
-}
-
-//updates defaults for archiving
-- (void)updateNSUserDefaultsforKey:(NSString*)key {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ([key isEqualToString:@"defaultBackgroundColor"]) {
-        [defaults setInteger:[self getIndexColorForBackground] forKey:@"defaultBackgroundColor"];
-    } else if ([key isEqualToString:@"defaultTextColor"]) {
-        [defaults setInteger:[self getIndexColorForText] forKey:@"defaultTextColor"];
-    } else if ([key isEqualToString:@"defaultTimeFormat"]) {
-        [defaults setInteger:[self getTimeFormat] forKey:@"defaultTimeFormat"];
-    }
-    [defaults synchronize];
-}
-
-//creates plist for secondary archiving system
-- (NSString *)getFilePath {
-    NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    return [[pathArray objectAtIndex:0] stringByAppendingPathComponent:@"settings.plist"];
-}
-
-//saves data to plist
-- (void)saveData {
-    
-    NSArray *value = [[NSArray alloc] initWithObjects:
-                      [NSNumber numberWithInt:
-                      [self getIndexColorForBackground]],
-                      [NSNumber numberWithInt:[self getIndexColorForText]], [NSNumber numberWithInt:[self getTimeFormat]], nil];
-    
-    [value writeToFile:[self getFilePath] atomically:YES];
-}
-
-- (void)loadData {
-    NSString *myPath = [self getFilePath];
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
-    
-    if (fileExists) {
-        NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
-        
-        self.userBackgroundColor = [values objectAtIndex:0];
-        self.userTextColor = [values objectAtIndex:1];
-        self.userTimeFormat = [values objectAtIndex:2];
-    }
 }
 
 @end

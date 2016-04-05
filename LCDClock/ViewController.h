@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Digit.h"
+#import "Colors.h"
 
 @interface ViewController : UIViewController
 
@@ -34,16 +35,6 @@
 @property (nonatomic) long digitFiveNumber;
 @property (nonatomic) long digitSixNumber;
 
-//properties for changing the color of the text & background
-@property (nonatomic, retain) UIColor *black;
-@property (nonatomic, retain) UIColor *yellow;
-@property (nonatomic, retain) UIColor *red;
-@property (nonatomic, retain) UIColor *green;
-@property (nonatomic, retain) UIColor *blue;
-@property (nonatomic, retain) UIColor *purple;
-@property (nonatomic, retain) UIColor *orange;
-@property (nonatomic) NSArray *colorArray;
-
 //properties for NSUserDefaults
 @property (nonatomic) NSInteger theBackgroundColor;
 @property (nonatomic) NSInteger theTextColor;
@@ -55,15 +46,11 @@
 @property (nonatomic) NSNumber *userTimeFormat;
 
 //methods to show appropriate segments for each number and blink the dots
-
-//- (IBAction)timeFormatSwitch:(id)sender;
 - (void)populateAllViews;
 - (void)blinkDots;
 - (IBAction)changeTimeFormat:(id)sender;
 
 //methods to change the text color and background color
-- (void)initWithRed:(float) red andGreen:(float)green andBlue:(float)blue andAlpha:(float)num;
-- (void)defineColors;
 - (void)startGestureForBackground;
 - (void)startGestureForText;
 - (void)changeColor: (UIColor*)color;

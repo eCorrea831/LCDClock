@@ -15,6 +15,7 @@
 		7B2904A91CA0A890004B3777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B2904A71CA0A890004B3777 /* LaunchScreen.storyboard */; };
 		7B2904B21CA0AFC8004B3777 /* Digit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2904B11CA0AFC8004B3777 /* Digit.m */; };
 		7B2904B41CA0AFD9004B3777 /* Digit.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B2904B31CA0AFD9004B3777 /* Digit.xib */; };
+		7B9D652E1CB337F000A5819B /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9D652D1CB337F000A5819B /* Colors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		7B2904B01CA0AFC8004B3777 /* Digit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Digit.h; sourceTree = "<group>"; };
 		7B2904B11CA0AFC8004B3777 /* Digit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Digit.m; sourceTree = "<group>"; };
 		7B2904B31CA0AFD9004B3777 /* Digit.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Digit.xib; sourceTree = "<group>"; };
+		7B9D652C1CB337F000A5819B /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
+		7B9D652D1CB337F000A5819B /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,8 @@
 				7B29049D1CA0A890004B3777 /* AppDelegate.m */,
 				7B29049F1CA0A890004B3777 /* ViewController.h */,
 				7B2904A01CA0A890004B3777 /* ViewController.m */,
+				7B9D652C1CB337F000A5819B /* Colors.h */,
+				7B9D652D1CB337F000A5819B /* Colors.m */,
 				7B2904A21CA0A890004B3777 /* Main.storyboard */,
 				7B2904B01CA0AFC8004B3777 /* Digit.h */,
 				7B2904B11CA0AFC8004B3777 /* Digit.m */,
@@ -158,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9D652E1CB337F000A5819B /* Colors.m in Sources */,
 				7B2904A11CA0A890004B3777 /* ViewController.m in Sources */,
 				7B29049E1CA0A890004B3777 /* AppDelegate.m in Sources */,
 				7B29049B1CA0A890004B3777 /* main.m in Sources */,
